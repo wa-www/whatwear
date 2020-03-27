@@ -261,7 +261,6 @@ def mosaic(img, rect, size):
 
 def weather_get(request):
     # APIキーの指定 - 以下を書き換えてください★ 
-  # apikey = "119bbe12540f4d109466d6084536164e"
   #環境変数に設定
   apikey=env('APIKEY')
 
