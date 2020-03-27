@@ -1,0 +1,150 @@
+{% block bottom %}
+
+<script type="text/javascript">
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+</script>
+
+{% comment %} <script type="text/javascript">
+$.ajax({
+     success : function(response){
+         alert('成功');
+     },
+     error: function(){
+         //通信失敗時の処
+         alert('通信失敗');
+     }
+ });
+ </script> {% endcomment %}
+
+<script type="text/javascript">
+
+
+</script>
+
+{% comment %} テスト {% endcomment %}
+  {% comment %} <form id="btn2" action="{% url 'photosend:new' %}" method="POST">{% csrf_token %}
+    <button type="submit" class="sosin">送信</button>
+  </form> {% endcomment %}
+
+
+
+{% comment %} 本番 {% endcomment %}
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    {% for photo in photos %}
+    <div class="card-group col-3">
+      <div class="card" style="width: 20rem;">
+        <a href="{% url 'photosend:photo_detail' photo.id%}"><img src="{{ photo.photo.url }}" class="card-img-top" alt="..." width="300" height="300"></a>
+        <div class="card-body">
+          <h5 class="card-title">{{photo.title}}</h5>
+          <p class="card-text">ひとこと：{{photo.content}}</p>
+          <p class="card-text"><small class="text-muted">ユーザ名：{{photo.user.username}}</small></p>
+          <p class="card-text"><small class="text-muted">{{photo.created_at}}</small></p>
+          {% if user.is_authenticated and request.user.id == photo.user.id%}
+          <p class="card-text"><a href="{% url 'photosend:edit' photo.pk %}"><small class="text-muted">編集</small></a></p>
+          <p class="card-text"><a href="{% url 'photosend:delete' photo.pk%}"><small class="text-muted">削除</small></a></p>
+          {% endif %}
+          {% comment %} <a class="btn btn-primary" href="{% url 'photosend:like' photo.id%}" role="button" data-id={{photo.id}}>いいね</a>　{{photo.like_num}} {% endcomment %}
+          {% comment %} <a class="btn btn-primary" id="button" href="{% url 'photosend:like' %}" role="button" data-id={{photo.id}}>いいね</a>　{{photo.like_num}}  {% endcomment %}
+          <div id="btn2" class="btn3" data-id={{photo.id}}>
+            <button class="btn btn-primary" type="submit"  >いいね</button> 
+            <p class="number">{{photo.like_num}}</p>
+          </div>
+          {% comment %} <button type="button" class="btn btn-light" data-id="{{photo.id}}" onclick="location.href='{% url 'photosend:like'%}'">いいね</button> {{photo.like_num}} {% endcomment %}
+          {% comment %} <a href='{% url 'photosend:new'%}' id="btn" class="btn btn-secondary btn-lg active" role="button" data-id="{{photo.id}}" aria-pressed="true">いいね</a>　{{photo.like_num}}  {% endcomment %}
+
+<a href="http://google.com">Google</a>
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% comment %} {% endblock %} {% endcomment %}
+
+
+
+{% comment %} {% block js %} {% endcomment %}
+
+<script type="text/javascript">
+  $(function(){
+      $("a[href^='http://']").attr("target","_blank");
+  });
+  $(function(){
+    $('.btn2').on('click',function(){
+        alert('Button is clicked');
+    });
+  });
+</script>
+
+<script type="text/javascript">
+
+$(function(){
+  $('.btn3').on('click',function(e){
+    e.preventDefault();
+    const a=$(this).children('.number');
+
+    var eventLastChild = event.target.lastChild;
+
+    photoid = $(this).data('id')
+    url='{% url "photosend:like"%}'
+    console.log(url);
+    console.log(photoid);
+    console.log(eventLastChild);
+
+    $.ajax({
+      url:url,
+      type: 'POST',
+      data: {
+        'photo_id': photoid,
+      },
+      dataType: 'json'
+    })
+
+    .done(function(d){
+      a.text(d.num);
+      alert('いいねを押しました');
+      $('.btn3').attr('disabled', false);
+      })
+    .fail(function(){
+      alert('エラー');
+      $('.btn3').attr('disabled', false);
+      });
+  });
+});
+</script>
+
+{% endblock %}

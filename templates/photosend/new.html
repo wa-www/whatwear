@@ -1,0 +1,106 @@
+{% extends 'photosend/base.html' %}
+<!DOCTYPE html>
+<html>
+
+
+<body>
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Home</li>
+    <li class="breadcrumb-item active" aria-current="page">新規投稿</li>
+  </ol>
+</nav>
+
+<div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a href="#toko1" class="nav-link active"  data-toggle="tab" >投稿</a>
+      </li>
+      <li class="nav-item">
+        <a href="#toko2" class="nav-link" data-toggle="tab" >モザイク投稿</a>
+      </li>
+
+    </ul>
+  </div>
+
+  
+  <div class="tab-content">
+    <div class="tab-pane active" id="toko1">
+        <form action="{% url 'photosend:create' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="formGroupExampleInput">タイトル</label>
+            {{ form.title }} 
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">ひとこと</label>
+            {{ form.content }}
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">画像
+            </label>
+              {{ form.photo }}
+          </div>
+          {% comment %} <input type="button" class="btn btn-primary" value="投稿"> {% endcomment %}
+          <button type="submit" class="btn btn-primary">投稿</button>
+          
+        </form>    
+    </div>
+
+
+    <div class="tab-pane" id="toko2">
+
+        <form action="{% url 'photosend:mosaic' %}" data.id method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="formGroupExampleInput">タイトル</label>
+            {{ form.title }} 
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">ひとこと</label>
+            {{ form.content }}
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">画像
+            </label>
+              {{ form.photo }}
+          </div>
+          {% comment %} <input type="button" class="btn btn-primary" value="投稿"> {% endcomment %}
+          <button type="submit" class="btn btn-primary" name="button_gray">投稿</button>
+          
+        </form>
+
+    </div>
+</div>
+
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">今日のコーディネート</a>
+</nav>
+
+  {% comment %} <div class="row">
+    {% for photo in photos %}
+    <div class="card-group col-xs-3">
+      <div class="card" style="width: 20rem;">
+        <a href="{% url 'photosend:photo_detail' photo.id%}"><img src="{{ photo.photo.url }}" class="card-img-top" alt="..." width="300" height="300"></a>
+        <div class="card-body">
+          <h5 class="card-title">{{photo.title}}</h5>
+          <p class="card-text">ひとこと：{{photo.content}}</p>
+          <p class="card-text"><small class="text-muted">ユーザ名：{{photo.user.username}}</small></p>
+          <p class="card-text"><small class="text-muted">{{photo.created_at}}</small></p>
+          {% if user.is_authenticated and request.user.id == photo.user.id%}
+          <p class="card-text"><a href="{% url 'photosend:edit' photo.pk %}"><small class="text-muted">編集</small></p>
+          <p class="card-text"><a href="{% url 'photosend:delete' photo.id%}"><small class="text-muted">削除</small></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div> {% endcomment %}
+
+{% endblock %}
+</body>
+</html>

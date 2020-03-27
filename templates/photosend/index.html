@@ -1,0 +1,59 @@
+
+{% extends 'photosend/base.html' %}
+
+<!DOCTYPE html>
+<html>
+
+
+<body>
+
+{% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Home</li>
+    </ol>
+  </nav>
+
+
+ <div class="form-row">
+
+    <nav class="navbar navbar-light bg-light col-4 h-25">
+      <a class="navbar-brand" href="#">今日の天気</a>
+
+    <form action="{% url 'photosend:index' %}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <select class="form-control " name="city" id="selectcity">
+      <option>Tokyo,JP</option>
+      <option>Osaka,JP</option>
+    </select>
+      <input class="btn btn-light" type="submit" >
+    </form>
+
+    <div class="resultcity">
+    </div>
+
+    </nav>
+
+    {% if user.is_authenticated and request.user.id == pic.user.id%}
+    <div class="mx-auto " style="width: 18rem;">
+      {% comment %} {% for photo in photos | slice:"1"%} {% endcomment %}
+      <a href="{% url 'photosend:photo_detail' pic.id%}"><img src="{{ pic.photo.url }}" class="card-img-top" alt="..." width="300" height="300"></a>
+      {% comment %} {% endfor %} {% endcomment %}
+      <div class="card-body">
+        <h5 class="card-title">{% now "F" %}{% now "j" %}日({% now "l" %})</h5>
+        <p class="card-text"></p>
+    {% endif %}
+        <a href="{% url 'photosend:new'%}" class="btn btn-primary">本日の投稿</a>
+      </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}
+</body>
+</html>

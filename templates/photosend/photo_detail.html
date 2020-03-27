@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'photosend/base.html' %}
+
+{% block content %}
+
+<div class="photo-detail">
+
+<img src="{{ photo.photo.url }}" class="photo-img">
+<div class="photo-info">
+    <a href="{% url 'index' %}">@{{ photo.user.username }}</a>
+</div>
+
+<h2>{{ photo.title }}</h2>
+<p>{{ photo.content }}</p>
+
+<!-- 削除ボタン -->
+{% if user.is_authenticated and request.user.id == photo.user.id%}
+<form method="post" action="{% url 'photosend:delete' photo.id %}">{% csrf_token %}
+    <button class="btn" type="submit" onclick='return confirm("本当に削除しますか？");'>削除</button>
+</form>
+{% endif %}
+</div>
+
+
+    {% for comment in comments %}
+    <div class="card-group col-xs-3">
+      <div class="card" style="width: 20rem;">
+        <div class="card-body">
+          <p class="card-text">コメント：{{comment.comment}}</p>
+          <p class="card-text"><small class="text-muted">ユーザ名：{{comment.user.username}}</small></p>
+          <p class="card-text"><small class="text-muted">{{comment.created_at}}</small></p>
+          {% if user.is_authenticated and request.user.id == photo.user.id%}
+          {% comment %} <p class="card-text"><a href="{% url 'photosend:edit' photo.pk %}"><small class="text-muted">編集</small></a></p> {% endcomment %}
+          <p class="card-text"><a href="{% url 'photosend:comment_delete' comment.id%}"><small class="text-muted">削除</small></a></p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+<div class="card">
+  <div class="card-body">
+    <form action="{% url 'photosend:photo_detail' photo.id %}" method="POST">{% csrf_token %}
+        {{ form.as_p }}
+      <button class="btn" type="submit">保存</button>
+    </form>
+    
+  </div>
+</div>
+{% comment %} <form action="{% url 'photosend:photo_detail' photo.id %}" method="POST">{% csrf_token %}
+    {{ form.as_p }}
+<button class="btn" type="submit">保存</button> {% endcomment %}
+
+
+{% endblock %}

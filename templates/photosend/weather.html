@@ -1,0 +1,58 @@
+{% extends 'photosend/base.html' %}
+
+<!DOCTYPE html>
+<html>
+
+
+<body>
+
+{% block content %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Home</li>
+      <li class="breadcrumb-item active" aria-current="page">weather</li>
+    </ol>
+  </nav>
+
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">今日の天気</a>
+</nav>
+
+<form action="{% url 'photosend:index' %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <select class="form-control" name="city">
+  <option>Tokyo,JP</option>
+  <option>Osaka,JP</option>
+</select>
+  <input class="btn btn-light" type="submit" >
+</form>
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">今日の天気</h5>
+  </div>
+</div>
+
+
+<div class="card" style="width: 18rem;">
+  <img src="../../media/photos/hito_0u1RA6h.jpeg" class="card-img-top" alt="cat">
+  <div class="card-body">
+    <h5 class="card-title">{{city}}</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">日付：{% now "F" %}{% now "j" %}日({% now "l" %})</li>
+    <li class="list-group-item">天気：{{weather}}</li>
+    <li class="list-group-item">最高気温：{{maxtemp}}</li>
+    <li class="list-group-item">最低気温：{{mintemp}}</li>
+  </ul>
+  <div class="card-body">
+    <a href="{% url 'photosend:index'%}" class="card-link">HOME</a>
+  </div>
+</div>
+
+
+{% endblock %}
+</body>
+</html>
+
+

@@ -1,0 +1,48 @@
+
+{% extends 'photosend/base.html' %}
+<!DOCTYPE html>
+<html>
+
+
+<body>
+
+{% block content %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Home</li>
+    <li class="breadcrumb-item active" aria-current="page">編集</li>
+  </ol>
+</nav>
+
+<div class="card text-center">
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link active"  data-toggle="tab" href="#toko1">編集</a>
+      </li>
+
+    </ul>
+  </div>
+  
+  <div class="tab-content">
+    <div class="card-body">
+      </div class="tab-pane active" id="toko1">
+      <p class="card-text">
+    
+        <form action="{% url 'photosend:edit' photo.id %}" method="POST">{% csrf_token %}
+          {{ form.as_p }}
+          <button class="btn" type="submit">保存</button>
+        </form>    
+      </p>
+
+    </div>
+  </div>
+  </div>
+
+</div>
+
+
+{% endblock %}
+</body>
+</html>

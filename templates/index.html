@@ -1,0 +1,33 @@
+
+
+
+{% extends 'photosend/base.html' %}
+{% comment %} {% load statics%} {% endcomment %}
+
+  {% comment %} <header>
+    <div class="header_content">
+      <h3><a href="{% url 'photosend:index'%}">なに着てく？</a></h3>
+      <div class="header_byn">
+        <a href="{% url 'photosend:new'%}">投稿する</a>
+      </div>
+    </div>
+  </header>
+
+  {% for photo in photos %}
+    <img src="{{ photo.image.url }}" class="photo-img">
+  {% endfor %} {% endcomment %}
+
+
+{% block content %}
+
+<h2>トップページ</h2>
+
+    <h2>トップページ</h2>
+  <div class="photo">
+    {% for photo in photos %}
+      <p>{{photo.title}}</p>
+      <img src="{{ photo.photo.url }}" class="photo-img" width="300" height="200">
+      <p>{{photo.content}}</p>
+    {% endfor %}
+
+{% endblock %}

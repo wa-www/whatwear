@@ -1,0 +1,34 @@
+*.pyc
+*.pyo
+__pycache__
+db.sqlite3
+media
+
+# vscodeの設定ファイルをgit管理対象から外す
+.vscode/
+
+
+### venv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+#https://qiita.com/YumaInaura/items/3907bb632f5f8564a871

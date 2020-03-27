@@ -1,0 +1,20 @@
+.file{
+  color: white;  
+  background-color: red;
+  height:10px;
+  width:15px;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.card-group{
+  float:left;
+}
+
+.card{
+  float:left;
+}
+.card-body{
+  float:left;
+
+}
