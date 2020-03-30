@@ -5,12 +5,16 @@ chardet==3.0.4
 cloudinary==1.20.0
 cycler==0.10.0
 defusedxml==0.6.0
+dj-database-url==0.5.0
 Django==2.2.6
 django-allauth==0.40.0
 django-cloudinary-storage==0.2.3
+django-debug-toolbar==2.2
 django-environ==0.4.5
+django-heroku==0.3.1
 django-storages==1.9.1
 docutils==0.15.2
+gunicorn==20.0.4
 idna==2.8
 jmespath==0.9.5
 kiwisolver==1.1.0
@@ -31,3 +35,4 @@ s3transfer==0.3.3
 six==1.12.0
 sqlparse==0.3.0
 urllib3==1.25.6
+whitenoise==5.0.1
