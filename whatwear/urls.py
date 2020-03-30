@@ -33,3 +33,11 @@ urlpatterns = [
 
 # MEDIA_ROOTを公開する（アクセス可能にする）
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#2020.3追記
+if settings.DEBUG:
+    import debug_toolbar
+
+urlpatterns += [
+path('__debug__/', include(debug_toolbar.urls)),
+]
