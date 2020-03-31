@@ -15,7 +15,7 @@ import logging
 #追記
 import environ
 
-import django_heroku
+# import django_heroku
 
 # import dj_database_url
 
@@ -220,8 +220,8 @@ except ImportError:
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
-    # import django_heroku
-    # django_heroku.settings(locals()) 
+    import django_heroku
+    django_heroku.settings(locals()) 
 
 # db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 # DATABASES['default'].update(db_from_env)
@@ -229,5 +229,5 @@ if not DEBUG:
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
