@@ -14,6 +14,7 @@ import os
 import logging
 #追記
 import environ
+import dj_database_url
 
 # import django_heroku
 
@@ -63,6 +64,8 @@ INSTALLED_APPS = [
     'storages', 
 ]
 
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -102,10 +105,20 @@ WSGI_APPLICATION = 'whatwear.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default':env.db(),
-}
+# DATABASES = {
+#     'default':env.db(),
+# }
 
+DATABASES = {
+    'default':{
+        ENGINE=django.db.backends.postgresql
+        NAME=whatwear
+        USER=wear
+        PASSWORD=
+        HOST=localhost
+        PORT=5432
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
