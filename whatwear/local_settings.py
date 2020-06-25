@@ -10,9 +10,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY=env('SECRET_KEY')
 
-#settings.pyからそのままコピー
+# #settings.pyからそのままコピー
+# DATABASES = {
+#     'default':env.db(),
+# }
+
 DATABASES = {
-    'default':env.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresl',
+        'NAME': os.path.join(BASE_DIR, 'db.postgresl'),
+    }
 }
 
 DEBUG = True #ローカルでDebugできるようになります
