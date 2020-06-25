@@ -14,6 +14,7 @@ import os
 import logging
 #追記
 import environ
+import dj_database_url
 
 # import django_heroku
 
@@ -63,18 +64,7 @@ INSTALLED_APPS = [
     'storages', 
 ]
 
-    #追加
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-    MEDIA_URL = S3_URL
-
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_DEFAULT_ACL = None
-    
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,10 +105,20 @@ WSGI_APPLICATION = 'whatwear.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default':env.db(),
-}
+# DATABASES = {
+#     'default':env.db(),
+# }
 
+DATABASES = {
+    'default':{
+        ENGINE=django.db.backends.postgresql
+        NAME=whatwear
+        USER=wear
+        PASSWORD=
+        HOST=localhost
+        PORT=5432
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
