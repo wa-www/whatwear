@@ -19,6 +19,9 @@ import dj_database_url
 import boto3
 from botocore.exceptions import ClientError
 
+# Let's use Amazon S3
+s3 = boto3.resource('s3')
+
 # import django_heroku
 
 # import dj_database_url
@@ -196,22 +199,6 @@ ACCOUNT_EMAIL_VERIFICATION= "none"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# # For debugging 
-# if DEBUG:
-#     # will output to your console
-#     logging.basicConfig(
-#         level = logging.DEBUG,
-#         format = '%(asctime)s %(levelname)s %(message)s',
-#     )
-# else:
-#     # will output to logging file
-#     logging.basicConfig(
-#         level = logging.DEBUG,
-#         format = '%(asctime)s %(levelname)s %(message)s',
-#         filename = '/my_log_file.log',
-#         filemode = 'a'
-#     )
-
 #2020.3追記
 
 ##for debugging tool
@@ -243,9 +230,7 @@ if not DEBUG:
 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-    # MEDIA_URL = S3_URL
-    MEDIA_URL = 'https://%s/%s/' % (AWS_S3_URL, 'media')
-    STATIC_URL = 'https://%s/%s/' % (AWS_S3_URL, 'static')
+    MEDIA_URL = S3_URL
 
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
