@@ -10,10 +10,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY=env('SECRET_KEY')
 
-# #settings.pyからそのままコピー
-# DATABASES = {
-#     'default':env.db(),
-# }
 
 DATABASES = {
     'default': {
@@ -22,4 +18,4 @@ DATABASES = {
     }
 }
 
-DEBUG = True #ローカルでDebugできるようになります
+DEBUG = True 

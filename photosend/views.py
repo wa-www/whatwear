@@ -166,11 +166,7 @@ def comment_delete(request, comment_pk):
 
 
 def user_index(request, user_pk):
-    # photos = Photo.objects.all()
-    # photos = Photo.objects.all()
-    # user = get_object_or_404(User, pk=user_pk)
-    # photos = get_object_or_404(Photo)
-    # photo = Photo.objects.get(photo.user.id=user_pk)
+
     user_photos = Photo.objects.filter(user = user_pk).order_by('-created_at')
     return render(request, 'photosend/user_index.html', {'photos': user_photos})
 
@@ -204,7 +200,6 @@ def edit_mosaic(request):
 
       # 画像の読み込んでグレイスケールに変
       img = cv2.imread(active)
-      # img = cv2.imread(active)
       img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
       # 顔検出を実行 --- (*3)
@@ -232,11 +227,6 @@ def edit_mosaic(request):
       cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
       cv2.imwrite(active, img)
 
-      # photo=form.save(commit=False)
-      # photo.title=request.POST['title']
-      # photo.content=request.POST['content']
-      # active.photo=img
-      # photo.user=request.user
       photo.save()
       messages.success(request, "投稿が完了しました！")
       return redirect('index')
@@ -264,18 +254,13 @@ def weather_get(request):
   #環境変数に設定
   apikey=env('APIKEY')
 
-  # 天気を調べたい都市の一覧
   if request.POST['city']:
   # cities = ["Tokyo,JP", "Osaka,JP", "Kyoto,JP"]
     city = request.POST['city']
-  # APIのひな型 
   api = "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={key}"
 
   # 温度変換(ケルビン→摂氏)
   k2c = lambda k: k - 273.15
-
-  # 各都市の温度を取得する
-  # for name in cities:
       # APIのURLを得る 
   url = api.format(city=request.POST['city'], key=apikey)
   # 実際にAPIにリクエストを送信して結果を取得する
@@ -326,8 +311,6 @@ def like(request):
         liking.delete()
         photo.like_num -= 1
         photo.save()
-        # messages.warning(request, 'いいねを取り消しました')
-        # return redirect('index')
         result = {
         'num': photo.like_num,
         }
@@ -339,8 +322,6 @@ def like(request):
     like.user = request.user
     like.photo = photo
     like.save()
-    # messages.success(request, 'いいね！しました')
-    # return redirect('index')
     result = {
       'num': photo.like_num,
       }
