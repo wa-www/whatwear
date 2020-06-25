@@ -1,5 +1,7 @@
 import os
 import environ
+import psycopg2
+
 
 #環境変数のため追記
 env = environ.Env()
@@ -13,9 +15,11 @@ SECRET_KEY=env('SECRET_KEY')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresl',
-        'NAME': os.path.join(BASE_DIR, 'db.postgresl'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.path.join(BASE_DIR, 'db.postgresql'),
     }
 }
+
+ALLOWED_HOSTS = ['*']
 
 DEBUG = True 

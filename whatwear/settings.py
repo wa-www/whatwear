@@ -216,10 +216,21 @@ if DEBUG:
         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
     }
 
+    #追記
+    # DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': os.path.join(BASE_DIR, 'db.postgresql'),
+    #     }
+    # }
+    # # del DATABASES['default']['OPTIONS']['sslmode']
+    # ALLOWED_HOSTS = ['*']
+
 try:
     from .local_settings import *
 except ImportError:
     pass
+
 
 if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
@@ -236,14 +247,15 @@ if not DEBUG:
     AWS_DEFAULT_ACL = None
 
     import django_heroku
+    # import dj_database_url
     django_heroku.settings(locals())
+    del DATABASES['default']['OPTIONS']['sslmode']
+    
+
 
 
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-# Activate Django-Heroku.
-# django_heroku.settings(locals())
 
