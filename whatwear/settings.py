@@ -16,6 +16,9 @@ import logging
 import environ
 import dj_database_url
 
+import boto3
+from botocore.exceptions import ClientError
+
 # import django_heroku
 
 # import dj_database_url
