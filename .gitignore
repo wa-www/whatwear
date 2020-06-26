@@ -31,4 +31,5 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+local_settings.py
 #https://qiita.com/YumaInaura/items/3907bb632f5f8564a871
