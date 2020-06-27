@@ -121,9 +121,9 @@ WSGI_APPLICATION = 'whatwear.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default':env.db(),
-}
+# DATABASES = {
+#     'default':env.db(),
+# }
 
 
 # Password validation
