@@ -242,10 +242,8 @@ if not DEBUG:
     AWS_LOCATION = 'static'
 
     # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    STATIC_URL = 'http://%s.s3.amazonaws.com/' % (AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
+    STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
     STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    # S3_URL = 'http://%s.s3.amazonaws.com/' % (AWS_STORAGE_BUCKET_NAME,AWS_LOCATION)
-    # MEDIA_URL = S3_URL
 
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
@@ -266,5 +264,4 @@ if not DEBUG:
 db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
 DATABASES['default'].update(db_from_env)
 
-# STATIC_URL = 'http://%s.s3.amazonaws.com/' % (AWS_STORAGE_BUCKET_NAME,AWS_LOCATION)
 
