@@ -14,10 +14,8 @@ SECRET_KEY=env('SECRET_KEY')
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.path.join(BASE_DIR, 'db.postgresql'),
-    }
+
+    'default': env.db(),
 }
 
 ALLOWED_HOSTS = ['*']

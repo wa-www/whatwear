@@ -47,8 +47,7 @@ env.read_env('.env')
 #2020.3追記
 DEBUG = False
 
-# ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 
 # Application definition
@@ -70,17 +69,6 @@ INSTALLED_APPS = [
     'storages', 
 ]
 
-    # #追加
-    # AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
-    # AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-    # AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
-
-    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-    # S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-    # MEDIA_URL = S3_URL
-
-    # AWS_S3_FILE_OVERWRITE = False
-    # AWS_DEFAULT_ACL = None
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -116,15 +104,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'whatwear.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default':env.db(),
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -168,16 +147,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-# SITE_ID = 1
-# LOGIN_REDIRECT_URL = 'index'
-# ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
-
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = '自分nogmailアドレス'
-# EMAIL_HOST_PASSWORD = 'gmailのパスワード'
-# EMAIL_USE_TLS = True
-
  
 SITE_ID = 1
 LOGIN_REDIRECT_URL = 'index'
@@ -202,29 +171,19 @@ MEDIA_URL = '/media/'
 #2020.3追記
 
 ##for debugging tool
-if DEBUG:
-    def show_toolbar(request):
-        return True
+# if DEBUG:
+#     def show_toolbar(request):
+#         return True
 
-    INSTALLED_APPS += (
-        'debug_toolbar',
-    )
-    MIDDLEWARE += (
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
-    )
-    DEBUG_TOOLBAR_CONFIG = {
-        'SHOW_TOOLBAR_CALLBACK': show_toolbar,
-    }
-
-    #追記
-    # DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': os.path.join(BASE_DIR, 'db.postgresql'),
-    #     }
-    # }
-    # # del DATABASES['default']['OPTIONS']['sslmode']
-    # ALLOWED_HOSTS = ['*']
+#     INSTALLED_APPS += (
+#         'debug_toolbar',
+#     )
+#     MIDDLEWARE += (
+#         'debug_toolbar.middleware.DebugToolbarMiddleware',
+#     )
+#     DEBUG_TOOLBAR_CONFIG = {
+#         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+#     }
 
 try:
     from .local_settings import *
@@ -232,7 +191,7 @@ except ImportError:
     pass
 
 
-if not DEBUG:
+# if not DEBUG:
     SECRET_KEY = os.environ['SECRET_KEY']
 
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
@@ -254,14 +213,13 @@ if not DEBUG:
     DEFAULT_FILE_STORAGE = 'localupload.storage_backends.MediaStorage'
 
     import django_heroku
-    # import dj_database_url
     django_heroku.settings(locals())
     del DATABASES['default']['OPTIONS']['sslmode']
     
 
 
 
-db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
-DATABASES['default'].update(db_from_env)
+# db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+# DATABASES['default'].update(db_from_env)
 
 
