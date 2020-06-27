@@ -18,6 +18,7 @@ import dj_database_url
 
 import boto3
 from botocore.exceptions import ClientError
+# import localupload
 
 # Let's use Amazon S3
 s3 = boto3.resource('s3')
