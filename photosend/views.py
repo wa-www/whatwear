@@ -1,6 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
 
-# Create your views here.
 from allauth.account.decorators import verified_email_required
 from django.contrib.auth.decorators import login_required
 from .forms import PhotoForm
@@ -13,54 +12,35 @@ from django.contrib import messages
 
 #環境変数のため追記
 import environ
-# BASE_DIR = environ.Path(__file__) - 2
+
 env = environ.Env()
 env.read_env('.env')
 
 import matplotlib.pyplot as plt
 import cv2
 
-# 天気情報のs取得
 import requests
 import json, pprint
 
 from datetime import date
-# from django.http import JsonResponse
 from django.http.response import JsonResponse
 import json
 
-# def index(request):
-#   return render(request,'photosend/index.html')
 
 def index(request):
-    # photos = Photo.objects.all().order_by('-created_at')
-    # return render(request, 'photosend/index.html', {'photos': photos})
 
     if request.method=="POST":
-          # APIキーの指定 - 以下を書き換えてください★ --- (※1)
-      #環境変数に設定
       apikey=env('APIKEY')
 
-      # 天気を調べたい都市の一覧 --- (※2)
-      # if request.POST['city']:
-      # cities = ["Tokyo,JP", "Osaka,JP", "Kyoto,JP"]
       city = request.POST.get('scity',False)
-      # APIのひな型 --- (※3)
+
       api = "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={key}"
 
-      # 温度変換(ケルビン→摂氏) --- (※4)
       k2c = lambda k: k - 273.15
 
-      # 各都市の温度を取得する --- (※5)
-      # for name in cities:
-          # APIのURLを得る --- (※6)
       url = api.format(city=request.POST['city'], key=apikey)
-      # 実際にAPIにリクエストを送信して結果を取得する
       r = requests.get(url)
-      # 結果はJSON形式なのでデコードする --- (※7)
       data = json.loads(r.text)
-
-      # 結果を画面に表示 --- (※8)
 
       name=data["name"]
       d=data["dt"]
@@ -68,17 +48,6 @@ def index(request):
       tempmin=(k2c(data["main"]["temp_min"]))
       tempmax=(k2c(data["main"]["temp_max"]))  
       return render(request, 'photosend/weather.html', {'city':name,'date':d,'weather':weather,'maxtemp':tempmax,'mintemp':tempmin})
-
-      # result = {
-      #   'city': data["name"],
-      #   'date': data["dt"],
-      #   'weather':data["weather"][0]["description"],
-      #   'tempmax':(k2c(data["main"]["temp_max"])),
-      #   'tempmin':(k2c(data["main"]["temp_min"]))
-
-      #   }
-      # # return JsonResponse(result)
-
 
 
     else:
@@ -112,7 +81,6 @@ def create(request):
 
 @login_required
 def photo_detail(request, pk):
-  # photo = get_object_or_404(Photo, id=pk)
   photo = Photo.objects.get(id=pk)
   comments = Comment.objects.filter(photo=pk)
   if request.method == "POST":
@@ -160,9 +128,7 @@ def comment_delete(request, comment_pk):
     except Comment.DoesNotExist:
       raise Http404
     comment.delete()
-    # photo = Predirecthoto.objects.get(id=comment.photo.id)
     return redirect('photosend:photo_detail', photo_id)
-    # return render(request, 'photosend/photo_detail.html', {'pk':photo_id})
 
 
 def user_index(request, user_pk):
@@ -172,11 +138,6 @@ def user_index(request, user_pk):
 
 @login_required
 def edit_mosaic(request):
-
-  # obj = Photo.objects.get()
-  # max_id = Photo.objects.latest('id').id
-  # obj = Photo.objects.get(id = max_id)
-
 
   if request.method=="POST":
     form = PhotoForm(request.POST,request.FILES)
@@ -189,20 +150,14 @@ def edit_mosaic(request):
       max_id = Photo.objects.latest('id').id
       obj = Photo.objects.get(id = max_id)
 
-      # active = Photo.objects.all()[0]
       active=settings.BASE_DIR + obj.photo.url
-      # photo_path=active.path
-      # photo_path=form.photo.path
-        # カスケードファイルを指定して分類機を作成 
-      # cascade_file = "/Users/noriko/p-projects/opencv-4.1.1/data/haarcascades/haarcascade_frontalface_alt.xml"
       cascade_file = "photosend/haarcascade_frontalface_alt.xml"
       cascade = cv2.CascadeClassifier(cascade_file)
 
-      # 画像の読み込んでグレイスケールに変
+
       img = cv2.imread(active)
       img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-      # 顔検出を実行 --- (*3)
       face_list = cascade.detectMultiScale(img_gray, minSize=(50,50))
       #物体認識（顔認識）の実行
       #image – CV_8U 型の行列．ここに格納されている画像中から物体が検出されます
@@ -212,7 +167,7 @@ def edit_mosaic(request):
       #flags – このパラメータは，新しいカスケードでは利用されません．古いカスケードに対しては，cvHaarDetectObjects 関数の場合と同じ意味を持ちます
       #minSize – 物体が取り得る最小サイズ．これよりも小さい物体は無視されます
       
-      # if len(face_list) == 0: quit()
+
       if len(face_list) == 0:
         return redirect('index')
       else:
@@ -222,8 +177,6 @@ def edit_mosaic(request):
 
       #画像を出力
       cv2.imwrite(active, img)
-      # plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-      # plt.show()
       cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
       cv2.imwrite(active, img)
 
@@ -249,59 +202,9 @@ def mosaic(img, rect, size):
     img2[y1:y2, x1:x2] = i_mos
     return img2
 
-def weather_get(request):
-    # APIキーの指定 - 以下を書き換えてください★ 
-  #環境変数に設定
-  apikey=env('APIKEY')
-
-  if request.POST['city']:
-  # cities = ["Tokyo,JP", "Osaka,JP", "Kyoto,JP"]
-    city = request.POST['city']
-  api = "https://api.openweathermap.org/data/2.5/weather?q={city}&APPID={key}"
-
-  # 温度変換(ケルビン→摂氏)
-  k2c = lambda k: k - 273.15
-      # APIのURLを得る 
-  url = api.format(city=request.POST['city'], key=apikey)
-  # 実際にAPIにリクエストを送信して結果を取得する
-  r = requests.get(url)
-  # 結果はJSON形式なのでデコードする
-  data = json.loads(r.text)
-
-  # 結果を画面に表示 
-
-  name=data["name"]
-  date=data["dt"]
-  weather=data["weather"][0]["description"]
-  tempmin=(k2c(data["main"]["temp_min"]))
-  tempmax=(k2c(data["main"]["temp_max"]))  
-
-
-  # return render(request, 'index', {'city':name,'date':date,'weather':weather,'tempmax':tempmax,'tempmin':tempmin})
-
-  result = {
-    'city': name,
-    'date': date,
-    'weather':weather,
-    'tempmax':tempmax,
-    'tempmin':tempmin
-
-    }
-  return JsonResponse(result)
-
-
-  # print("+ 都市=", data["name"])
-  # print("+ 日付=", data["dt"])
-  # print("| 天気=", data["weather"][0]["description"])
-  # print("| 最低気温=", k2c(data["main"]["temp_min"]))
-  # print("| 最高気温=", k2c(data["main"]["temp_max"]))
-  # print("| 風速度=", data["wind"]["speed"])
-  # print("")
 
 @login_required
 def like(request):
-    # photo = Photo.objects.get(id=kwargs['post_id'])
-    # photo = Photo.objects.get(id=pk)
     keyword=request.POST.get("photo_id",None)
     photo = Photo.objects.get(id=keyword)
     is_like = Like.objects.filter(user=request.user).filter(photo=photo.id).count()

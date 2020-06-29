@@ -15,6 +15,5 @@ urlpatterns = [
     path('<int:pk>/', views.photo_detail, name='photo_detail'),
     path('edit/<int:pk>', views.photo_edit, name='edit'),
     path('<int:user_pk>/index/', views.user_index, name='user_index'),
-    # path('<int:pk>/like/', views.like, name='like'),
     path('like/', views.like, name='like'),
 ]
