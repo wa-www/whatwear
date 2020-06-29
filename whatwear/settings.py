@@ -200,7 +200,7 @@ if not DEBUG:
     AWS_LOCATION = 'static'
 
     STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-    STATICFILES_STORAGE = 'whatwear.backends.s3boto.S3BotoStorage'
+    STATICFILES_STORAGE = 'storages.backends.s3boto.S3Boto3Storage'
 
     AWS_S3_FILE_OVERWRITE = False
     AWS_DEFAULT_ACL = None
@@ -208,7 +208,7 @@ if not DEBUG:
     # MEDIA_URL = '/media/'
     # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-    # DEFAULT_FILE_STORAGE = 'whatwear.storage_backends.MediaStorage'
+    DEFAULT_FILE_STORAGE = 'whatwear.backends.MediaStorage'
 
     import django_heroku
     django_heroku.settings(locals())
