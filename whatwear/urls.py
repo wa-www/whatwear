@@ -28,7 +28,6 @@ urlpatterns = [
     # path('', TemplateView.as_view(template_name='index.html'), name='index'),
     path('accounts/', include('allauth.urls')),
     path('photosend/', include('photosend.urls')),
-    # path('photosend/photos_create', views.photos_create,name='photos_create'),
 ]
 
 # MEDIA_ROOTを公開する（アクセス可能にする）
