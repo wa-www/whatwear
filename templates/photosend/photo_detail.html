@@ -30,7 +30,6 @@
           <p class="card-text"><small class="text-muted">ユーザ名：{{comment.user.username}}</small></p>
           <p class="card-text"><small class="text-muted">{{comment.created_at}}</small></p>
           {% if user.is_authenticated and request.user.id == photo.user.id%}
-          {% comment %} <p class="card-text"><a href="{% url 'photosend:edit' photo.pk %}"><small class="text-muted">編集</small></a></p> {% endcomment %}
           <p class="card-text"><a href="{% url 'photosend:comment_delete' comment.id%}"><small class="text-muted">削除</small></a></p>
           {% endif %}
         </div>
@@ -47,9 +46,6 @@
     
   </div>
 </div>
-{% comment %} <form action="{% url 'photosend:photo_detail' photo.id %}" method="POST">{% csrf_token %}
-    {{ form.as_p }}
-<button class="btn" type="submit">保存</button> {% endcomment %}
 
 
 {% endblock %}

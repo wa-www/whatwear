@@ -19,27 +19,6 @@
 </nav>
 
   <br>
-  {% comment %} <div class="row">
-
-    {% for photo in photos %}
-    <div class="card-group col-xs-3">
-      <div class="card" style="width: 20rem;">
-        <a href="{% url 'photosend:photo_detail' photo.id%}"><img src="{{ photo.photo.url }}" class="card-img-top" alt="..." width="300" height="300"></a>
-        <div class="card-body">
-          <h5 class="card-title">{{photo.title}}</h5>
-          <p class="card-text">ひとこと：{{photo.content}}</p>
-          <p class="card-text"><small class="text-muted">ユーザ名：{{photo.user.username}}</small></p>
-          <p class="card-text"><small class="text-muted">{{photo.created_at}}</small></p>
-          {% if user.is_authenticated and request.user.id == photo.user.id%}
-          <p class="card-text"><a href="{% url 'photosend:edit' photo.pk %}"><small class="text-muted">編集</small></p>
-          <p class="card-text"><a href="{% url 'photosend:delete' photo.id%}"><small class="text-muted">削除</small></p>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div> {% endcomment %}
-
 
 {% endblock %}
 </body>
